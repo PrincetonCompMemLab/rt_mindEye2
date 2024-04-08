@@ -5,12 +5,12 @@ import pdb
 import os
 import numpy as np
 
-n_participants = 10
+n_participants = 1000
 images_paths = os.listdir("images/")[:750]
 random.shuffle(images_paths)
-images_paths_150 = images_paths[:150]
-images_paths = (images_paths_150 + images_paths_150 + images_paths_150 + images_paths_150 + images_paths_150)
-num_runs = 1
+images_paths_500 = images_paths[:500]
+images_paths = (images_paths_500 + images_paths_500)
+num_runs = 16
 trials_per_run = 72
 # set blank trials as fixed across participants but varied across trials
 run_to_blanks = {}
@@ -46,23 +46,21 @@ def between9and14continuous(all_indices):
     return True
 for run_num in range(num_runs):
     print("run_num: ", run_num)
-    blank_trial_indices = [68,69,70,71] if run_num % 2 != 0 else [59,68,69,70,71]
-    # add 4 or 5 to blank trial indices
-    more_indices = []
-    try_counter = 0
+    blank_trial_indices = [68,69,70,71]
     # if even, sample index only 9 or 10 indices above the last draw to not 
     # run into a situation where there is no slot for a 5th blank trial
     if run_num % 2 == 0:
-        index_increments = [9,10,9,10,9]
+        index_increments = [10,10,10,10,10,10]
     else:
-        index_increments = [9,10,11,12,13]
+        index_increments = [10,10,14,12,11]
     random.shuffle(index_increments)
-    previous_blank_index = 0
+    previous_blank_index = -1
     for ii in index_increments:
         new_blank_index = previous_blank_index + ii
         previous_blank_index = new_blank_index
         blank_trial_indices.append(new_blank_index)
     blank_trial_indices = sorted(blank_trial_indices)
+    assert(between9and14continuous(blank_trial_indices[:-3]))
     print(between9and14continuous(blank_trial_indices[:-3]))
     run_to_blanks[run_num] = blank_trial_indices
 print(run_to_blanks)
@@ -94,8 +92,8 @@ for p_id in range(n_participants):
                 is_blank_trial_list.append(1)
                 is_repeat_list.append(0)
             else:
-                print("len(images_paths): ",len(images_paths))
-                print("image_index: ",image_index)
+                # print("len(images_paths): ",len(images_paths))
+                # print("image_index: ",image_index)
                 image_path = images_paths[image_index]
                 if image_path in current_image_list:
                     is_repeat_list.append(1)
