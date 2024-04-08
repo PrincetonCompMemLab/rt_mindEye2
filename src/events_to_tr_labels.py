@@ -25,6 +25,7 @@ for index, row in df.iterrows():
                                     "_runNum" + str(run_num))
 pdb.set_trace()
 tr_list = []
+tr_range_list = []
 tr_trial_name = [] # "blank" or "COCOimage_" + str(row["73k_id"]) + \
                                 #   "_trialNum_" + str(row["trial_number"]) + \
                                 #     "_runNum" + str(run_num)
@@ -46,8 +47,23 @@ for tr_index in range(1,total_TRs + 1):
     tr_start = (tr_index - 1) * tr_length
     tr_end = tr_index * tr_length
     # go through each onset and see if this tr is within it
-    for onset in onsets:
+    overlapping_events_amount = []
+    overlapping_events_name = []
+    pdb.set_trace()
+    for onset_index, onset in enumerate(onsets):
         overlap = overlap_amount(range1=(tr_start, tr_end), range2 = (onset, onset + stim_duration))
-        pass
-
+        if overlap > threshold:
+            overlapping_events_amount.append(overlap)
+            overlapping_events_name.append(stim_names[onset_index])
+    
+    if len(overlapping_events_amount) == 0:
+        tr_trial_name.append("blank")
+    else:
+        name_str = ""
+        for event_name in overlapping_events_name:
+            name_str += event_name
+            name_str += "_"
+        tr_trial_name.append(name_str)
+    tr_list.append(tr_index)
+    tr_range_list.append((tr_start,tr_end))
     
