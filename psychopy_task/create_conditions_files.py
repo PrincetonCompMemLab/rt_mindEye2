@@ -3,14 +3,70 @@ import copy
 import pandas as pd
 import pdb
 import os
+import numpy as np
 
 n_participants = 10
 images_paths = os.listdir("images/")[:750]
 random.shuffle(images_paths)
 images_paths_150 = images_paths[:150]
 images_paths = (images_paths_150 + images_paths_150 + images_paths_150 + images_paths_150 + images_paths_150)
-num_runs = 12
-trials_per_run = 75
+num_runs = 1
+trials_per_run = 72
+# set blank trials as fixed across participants but varied across trials
+run_to_blanks = {}
+random.seed(2)
+
+def between9and14continuous(all_indices):
+    all_indices = sorted(all_indices)
+    print("all_indices: ", all_indices)
+    for i, index in enumerate(all_indices):
+        if i == 0:
+            # print("all_indices[1]: ", all_indices[1])
+            # print("index: ", index)
+            if not ((all_indices[1] - index) >= 9 \
+                    and (all_indices[1] - index) <= 14):
+                return False
+        elif i == len(all_indices) - 1:
+            # print("all_indices[len(all_indices) - 2]: ", \
+            #        all_indices[len(all_indices) - 2])
+            # print("index: ", index)
+            if not (abs(all_indices[len(all_indices) - 2] - index) >= 9 \
+                    and abs(all_indices[len(all_indices) - 2] - index) <= 14):
+                return False
+        else:
+            # print("all_indices[i + 1]: ", all_indices[i + 1])
+            # print("all_indices[i - 1]: ", all_indices[i - 1])
+            # print("index: ", index)
+            if not ((all_indices[i + 1] - index) >= 9 \
+                    and (all_indices[i + 1] - index) <= 14):
+                return False
+            if not (abs(all_indices[i - 1] - index) >= 9 \
+                    and abs(all_indices[i - 1] - index) <= 14):
+                return False
+    return True
+for run_num in range(num_runs):
+    print("run_num: ", run_num)
+    blank_trial_indices = [68,69,70,71] if run_num % 2 != 0 else [59,68,69,70,71]
+    # add 4 or 5 to blank trial indices
+    more_indices = []
+    try_counter = 0
+    # if even, sample index only 9 or 10 indices above the last draw to not 
+    # run into a situation where there is no slot for a 5th blank trial
+    if run_num % 2 == 0:
+        index_increments = [9,10,9,10,9]
+    else:
+        index_increments = [9,10,11,12,13]
+    random.shuffle(index_increments)
+    previous_blank_index = 0
+    for ii in index_increments:
+        new_blank_index = previous_blank_index + ii
+        previous_blank_index = new_blank_index
+        blank_trial_indices.append(new_blank_index)
+    blank_trial_indices = sorted(blank_trial_indices)
+    print(between9and14continuous(blank_trial_indices[:-3]))
+    run_to_blanks[run_num] = blank_trial_indices
+print(run_to_blanks)
+
 for p_id in range(n_participants):
     random.seed(p_id)
     # make dirs
@@ -24,7 +80,7 @@ for p_id in range(n_participants):
     trial_index_list = []
     image_index = 0
     for run_num in range(num_runs):
-        blank_trial_indices = [10,20,30,40,50] if run_num % 2 != 0 else [10,20,30,40,50,60]
+        blank_trial_indices = run_to_blanks[run_num]
         for trial_index in range(trials_per_run):
             run_num_list.append(run_num)
             trial_index_list.append(trial_index)
@@ -33,7 +89,7 @@ for p_id in range(n_participants):
             else:
                 is_new_run_list.append(0)
 
-            if trial_index <= 2 or trial_index >= 71 or trial_index in blank_trial_indices:
+            if trial_index in blank_trial_indices:
                 current_image_list.append("images/blank.jpg")
                 is_blank_trial_list.append(1)
                 is_repeat_list.append(0)

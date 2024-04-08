@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2023.2.3),
-    on Thu Mar 14 09:42:27 2024
+    on Wed Apr  3 15:56:02 2024
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -157,12 +157,12 @@ def setupWindow(expInfo=None, win=None):
     if win is None:
         # if not given a window to setup, make one
         win = visual.Window(
-            size=[1792, 1120], fullscr=False, screen=0,
+            size=[1792, 1120], fullscr=True, screen=0,
             winType='pyglet', allowStencil=False,
             monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
             backgroundImage='', backgroundFit='none',
             blendMode='avg', useFBO=True,
-            units='height'
+            units='deg'
         )
         if expInfo is not None:
             # store frame rate of monitor if we can measure it
@@ -173,8 +173,8 @@ def setupWindow(expInfo=None, win=None):
         win.colorSpace = 'rgb'
         win.backgroundImage = ''
         win.backgroundFit = 'none'
-        win.units = 'height'
-    win.mouseVisible = True
+        win.units = 'deg'
+    win.mouseVisible = False
     win.hideMessage()
     return win
 
@@ -310,7 +310,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     text_3 = visual.TextStim(win=win, name='text_3',
         text='waiting for scanner…',
         font='Open Sans',
-        pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+        units='deg', pos=(0, 0), height=10.0, wrapWidth=None, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
         languageStyle='LTR',
         depth=-1.0);
@@ -321,7 +321,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     text = visual.TextStim(win=win, name='text',
         text='put instructions here. press spacebar.',
         font='Open Sans',
-        pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
+        units='deg', pos=(0, 0), height=10.0, wrapWidth=None, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
         languageStyle='LTR',
         depth=0.0);
@@ -330,16 +330,16 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     # --- Initialize components for Routine "trial" ---
     image = visual.ImageStim(
         win=win,
-        name='image', 
+        name='image', units='deg', 
         image='default.png', mask=None, anchor='center',
-        ori=0.0, pos=(0, 0), size=(0.5, 0.5),
+        ori=0.0, pos=(0, 0), size=(8.4, 8.4),
         color=[1,1,1], colorSpace='rgb', opacity=None,
         flipHoriz=False, flipVert=False,
         texRes=128.0, interpolate=True, depth=0.0)
     press_if_repeat = keyboard.Keyboard()
     polygon = visual.ShapeStim(
-        win=win, name='polygon',
-        size=(0.01, 0.01), vertices='circle',
+        win=win, name='polygon',units='deg', 
+        size=(0.2, 0.2), vertices='circle',
         ori=0.0, pos=(0, 0), anchor='center',
         lineWidth=3.0,     colorSpace='rgb',  lineColor=[-1.0000, -1.0000, -1.0000], fillColor=[1.0000, -1.0000, -1.0000],
         opacity=0.3, depth=-3.0, interpolate=True)
@@ -347,8 +347,8 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
     # --- Initialize components for Routine "blank_trial" ---
     key_resp_3 = keyboard.Keyboard()
     polygon_2 = visual.ShapeStim(
-        win=win, name='polygon_2',
-        size=(0.01, 0.01), vertices='circle',
+        win=win, name='polygon_2',units='deg', 
+        size=(0.2, 0.2), vertices='circle',
         ori=0.0, pos=(0, 0), anchor='center',
         lineWidth=3.0,     colorSpace='rgb',  lineColor=[-1.0000, -1.0000, -1.0000], fillColor=[1.0000, -1.0000, -1.0000],
         opacity=0.3, depth=-1.0, interpolate=True)
@@ -728,7 +728,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         
         # --- Run Routine "trial" ---
         routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 4.0:
+        while continueRoutine:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -739,7 +739,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # *image* updates
             
             # if image is starting this frame...
-            if image.status == NOT_STARTED and tThisFlip >= 1-frameTolerance:
+            if image.status == NOT_STARTED and frameN >= 60:
                 # keep track of start time/frame for later
                 image.frameNStart = frameN  # exact frame index
                 image.tStart = t  # local t and not account for scr refresh
@@ -758,8 +758,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if image is stopping this frame...
             if image.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > image.tStartRefresh + 3-frameTolerance:
+                if frameN >= (image.frameNStart + 180):
                     # keep track of stop time/frame for later
                     image.tStop = t  # not accounting for scr refresh
                     image.frameNStop = frameN  # exact frame index
@@ -773,7 +772,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             waitOnFlip = False
             
             # if press_if_repeat is starting this frame...
-            if press_if_repeat.status == NOT_STARTED and tThisFlip >= 1-frameTolerance:
+            if press_if_repeat.status == NOT_STARTED and frameN >= 60:
                 # keep track of start time/frame for later
                 press_if_repeat.frameNStart = frameN  # exact frame index
                 press_if_repeat.tStart = t  # local t and not account for scr refresh
@@ -790,8 +789,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if press_if_repeat is stopping this frame...
             if press_if_repeat.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > press_if_repeat.tStartRefresh + 3-frameTolerance:
+                if frameN >= (press_if_repeat.frameNStart + 180):
                     # keep track of stop time/frame for later
                     press_if_repeat.tStop = t  # not accounting for scr refresh
                     press_if_repeat.frameNStop = frameN  # exact frame index
@@ -811,7 +809,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # *polygon* updates
             
             # if polygon is starting this frame...
-            if polygon.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            if polygon.status == NOT_STARTED and frameN >= 0:
                 # keep track of start time/frame for later
                 polygon.frameNStart = frameN  # exact frame index
                 polygon.tStart = t  # local t and not account for scr refresh
@@ -830,8 +828,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if polygon is stopping this frame...
             if polygon.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > polygon.tStartRefresh + 4-frameTolerance:
+                if frameN >= (polygon.frameNStart + 240):
                     # keep track of stop time/frame for later
                     polygon.tStop = t  # not accounting for scr refresh
                     polygon.frameNStop = frameN  # exact frame index
@@ -874,11 +871,8 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         if press_if_repeat.keys != None:  # we had a response
             loop_all_images.addData('press_if_repeat.rt', press_if_repeat.rt)
             loop_all_images.addData('press_if_repeat.duration', press_if_repeat.duration)
-        # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-        if routineForceEnded:
-            routineTimer.reset()
-        else:
-            routineTimer.addTime(-4.000000)
+        # the Routine "trial" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         
         # --- Prepare to start Routine "blank_trial" ---
         continueRoutine = True
@@ -920,7 +914,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             waitOnFlip = False
             
             # if key_resp_3 is starting this frame...
-            if key_resp_3.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            if key_resp_3.status == NOT_STARTED and frameN >= 0:
                 # keep track of start time/frame for later
                 key_resp_3.frameNStart = frameN  # exact frame index
                 key_resp_3.tStart = t  # local t and not account for scr refresh
@@ -937,8 +931,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if key_resp_3 is stopping this frame...
             if key_resp_3.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > key_resp_3.tStartRefresh + 4-frameTolerance:
+                if frameN >= (key_resp_3.frameNStart + 240):
                     # keep track of stop time/frame for later
                     key_resp_3.tStop = t  # not accounting for scr refresh
                     key_resp_3.frameNStop = frameN  # exact frame index
@@ -958,7 +951,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # *polygon_2* updates
             
             # if polygon_2 is starting this frame...
-            if polygon_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            if polygon_2.status == NOT_STARTED and frameN >= 0:
                 # keep track of start time/frame for later
                 polygon_2.frameNStart = frameN  # exact frame index
                 polygon_2.tStart = t  # local t and not account for scr refresh
@@ -977,8 +970,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if polygon_2 is stopping this frame...
             if polygon_2.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > polygon_2.tStartRefresh + 4-frameTolerance:
+                if frameN >= (polygon_2.frameNStart + 240):
                     # keep track of stop time/frame for later
                     polygon_2.tStop = t  # not accounting for scr refresh
                     polygon_2.frameNStop = frameN  # exact frame index
@@ -1051,7 +1043,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
         
         # --- Run Routine "block" ---
         routineForceEnded = not continueRoutine
-        while continueRoutine and routineTimer.getTime() < 5.0:
+        while continueRoutine:
             # get current time
             t = routineTimer.getTime()
             tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1062,7 +1054,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             # *text_2* updates
             
             # if text_2 is starting this frame...
-            if text_2.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            if text_2.status == NOT_STARTED and frameN >= 0:
                 # keep track of start time/frame for later
                 text_2.frameNStart = frameN  # exact frame index
                 text_2.tStart = t  # local t and not account for scr refresh
@@ -1081,8 +1073,7 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             
             # if text_2 is stopping this frame...
             if text_2.status == STARTED:
-                # is it time to stop? (based on global clock, using actual start)
-                if tThisFlipGlobal > text_2.tStartRefresh + 5-frameTolerance:
+                if frameN >= (text_2.frameNStart + 300):
                     # keep track of stop time/frame for later
                     text_2.tStop = t  # not accounting for scr refresh
                     text_2.frameNStop = frameN  # exact frame index
@@ -1118,11 +1109,8 @@ def run(expInfo, thisExp, win, inputs, globalClock=None, thisSession=None):
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
         thisExp.addData('block.stopped', globalClock.getTime())
-        # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-        if routineForceEnded:
-            routineTimer.reset()
-        else:
-            routineTimer.addTime(-5.000000)
+        # the Routine "block" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
         thisExp.nextEntry()
         
         if thisSession is not None:
