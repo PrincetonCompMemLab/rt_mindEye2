@@ -1,4 +1,4 @@
 **Overview**
 
-This is a demo of real-time visual image retrievals. The goal of this demo is to demonstrate the viability of integrating a GPU processor within the rtcloud framework to utilize recent advances in machine learning to classify or reconstruct visual information from brain activity. 
-This demo utilizes the MindEye2 model developed by Scotti et. al. (2024) to do the real-time machine learning on the brain activity to get precise information about what people are looking at. 
+This is an example of how rt-cloud can be used to accurately reconstruct and classify viewed natural scenes from fMRI data in real-time. By integrating a GPU processor into the rt-cloud framework by hosting the project server/data analyzer on a GPU enabled processor, rt-cloud makes it possible to use cutting edge, computationally intensive large-scale AI models to analyze fMRI data. Here we utilize the MindEye2 model developed by Scotti et. al. (2024) to obtain accurate information about viewed natural scenes from fMRI data in real-time using rt-cloud.
+
